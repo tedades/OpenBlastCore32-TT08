@@ -3,7 +3,7 @@ project:
   title:        "OpenBlastCore32-TT08"
   author:       "Tedades"
   discord:      "Tedades"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  "OpenBlastCore is an open-sourced 32bit TTA chip designed for retro-gaming on the Tiny TapeOut demo board."
+  description:  "OpenBlastCore is an open-source 32bit custom ISA chip designed for retro-gaming on the Tiny TapeOut demo board."
   language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
   clock_hz:     50000000 # 20 ns target clock period
 

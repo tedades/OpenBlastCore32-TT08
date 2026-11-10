@@ -1,0 +1,9 @@
+# Preserve release RTL and upstream license bytes.
+src/vendor/gamepad_pmod/* -text
+src/tt08*.v -text whitespace=trailing-space,space-before-tab,cr-at-eol
+src/tt_um_openblastcore32_tt08.v -text whitespace=trailing-space,space-before-tab,cr-at-eol
+src/phase2_gamepad_io.v -text whitespace=trailing-space,space-before-tab,cr-at-eol
+info.yaml -text whitespace=trailing-space,space-before-tab,cr-at-eol
+src/config.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+checkpoint/rc1.tar.gz -text
+scripts/*.py text eol=lf

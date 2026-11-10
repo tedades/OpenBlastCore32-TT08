@@ -10,14 +10,46 @@ permissions:
 jobs:
   gds:
     runs-on: ubuntu-24.04
+    timeout-minutes: 75
     steps:
       - name: checkout repo
         uses: actions/checkout@v6
-      - name: Build GDS
-        uses: TinyTapeout/tt-gds-action@395eedb3eeec3c2f4961c3b04ff2cf87f5525636
+      - name: Install pinned Sky130 PDK
+        uses: TinyTapeout/ciel-action@7ac3e42cf2e1a080f1fc6d7b56d732a2ad17d9f6
         with:
-          pdk: sky130A
-          tools-ref: 02abf73b5f5dcd2eabdda92b074bf00c4446d886
+          pdk_name: sky130
+          pdk_version: 8afc8346a57fe1ab7934ba5a6056ea8b43078e71
+          pdk_root: ${{ runner.temp }}/pdk
+      - name: Build and verify RC1 checkpoint replay
+        shell: bash
+        run: |
+          pdk="$(realpath "${{ runner.temp }}/pdk/sky130A")"
+          test -r "$pdk/SOURCES"
+          docker run --rm --network none --memory=10g --cpus=2 \
+            -v "$GITHUB_WORKSPACE:/project" \
+            -v "$pdk:/pdk/sky130A:ro" \
+            -w /project \
+            -e GITHUB_SHA -e GITHUB_SERVER_URL -e GITHUB_REPOSITORY -e GITHUB_RUN_ID \
+            --entrypoint python3 \
+            ghcr.io/librelane/librelane@sha256:f91b21d75f79871f9ccf37451020b5d2f7b3236881a997ff709c561e8280a30f \
+            scripts/build_gds.py
+      - name: Publish build logs
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: GDS_logs
+          path: runs/rc1/flow/
+          if-no-files-found: warn
+      - name: Publish verified submission
+        uses: actions/upload-artifact@v7
+        with:
+          name: tt_submission
+          if-no-files-found: error
+          path: |
+            tt_submission/**
+            info.yaml
+            LICENSE
+            src/**
 
   precheck:
     needs: gds

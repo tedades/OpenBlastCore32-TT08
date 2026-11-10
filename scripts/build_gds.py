@@ -110,9 +110,15 @@ def inputs():
             "Unsupported source hash format")
     for name, expected in manifest["sources"].items():
         require(digest((ROOT / name).read_bytes().replace(b"\r\n", b"\n")) == expected,
-                f"Changed RC1 input: {name}; this checkpoint cannot build changed RTL")
+                f"Changed RC1 input: {name}; this checkpoint cannot build changed hardware inputs")
     info = yaml.safe_load((ROOT / "info.yaml").read_text())
-    require(info["project"] == manifest["project"], "Changed RC1 project configuration")
+    project = info["project"]
+    expected_project = manifest["project"]
+    require(isinstance(project, dict) and project.keys() == expected_project.keys(),
+            "Changed RC1 project fields")
+    for key in ("language", "clock_hz", "tiles", "top_module", "source_files"):
+        require(project[key] == expected_project[key],
+                f"Changed RC1 hardware project field: {key}")
     require(info["pinout"] == manifest["pinout"], "Changed RC1 pinout")
     require(info["yaml_version"] == 6, "Unexpected manifest version")
     declared = {f"src/{name}" for name in info["project"]["source_files"]}

@@ -1,0 +1,29 @@
+name: gds
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gds:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v6
+      - name: Build GDS
+        uses: TinyTapeout/tt-gds-action@395eedb3eeec3c2f4961c3b04ff2cf87f5525636
+        with:
+          pdk: sky130A
+          tools-ref: 02abf73b5f5dcd2eabdda92b074bf00c4446d886
+
+  precheck:
+    needs: gds
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Run Tiny Tapeout Precheck
+        uses: TinyTapeout/tt-gds-action/precheck@395eedb3eeec3c2f4961c3b04ff2cf87f5525636
+        with:
+          tools-ref: 02abf73b5f5dcd2eabdda92b074bf00c4446d886

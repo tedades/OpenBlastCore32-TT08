@@ -106,8 +106,10 @@ def inputs():
     manifest = json.loads((folder / "manifest.json").read_text())
     require(manifest["image"] == IMAGE and manifest["pdk_revision"] == PDK_REVISION,
             "Checkpoint toolchain mismatch")
+    require(manifest["source_hash_format"] == "sha256-crlf-to-lf",
+            "Unsupported source hash format")
     for name, expected in manifest["sources"].items():
-        require(digest((ROOT / name).read_bytes()) == expected,
+        require(digest((ROOT / name).read_bytes().replace(b"\r\n", b"\n")) == expected,
                 f"Changed RC1 input: {name}; this checkpoint cannot build changed RTL")
     info = yaml.safe_load((ROOT / "info.yaml").read_text())
     require(info["project"] == manifest["project"], "Changed RC1 project configuration")
@@ -136,7 +138,7 @@ def inputs():
             "Checkpoint ECOs changed the reference functional connectivity")
     require(geometry(assets[f"{TOP}.def"].decode()) == manifest["geometry"],
             "Checkpoint physical geometry mismatch")
-    print("Verified exact RC1 sources, constraints, checkpoint and buffer-contracted equivalence.",
+    print("Verified RC1 sources (CRLF/LF equivalent), constraints, checkpoint and buffer-contracted equivalence.",
           flush=True)
     return manifest, assets
 
@@ -184,6 +186,7 @@ def audit(run, assets, manifest):
     checks["new_gds"] = gds.is_file() and gds.stat().st_size > 0
     result = {"build_kind": "checkpoint_replay", "checks": checks,
               "fresh_sta_metrics": fresh, "sources": manifest["sources"],
+              "source_hash_format": manifest["source_hash_format"],
               "checkpoint_sha256": manifest["archive_sha256"],
               "gds_sha256": digest(gds.read_bytes())}
     (run / "closure.json").write_text(json.dumps(result, indent=2) + "\n")
@@ -229,6 +232,7 @@ def submission(run, result, manifest, config):
         "build_kind": "checkpoint_replay", "source_commit": manifest["source_commit"],
         "checkpoint_sha256": manifest["archive_sha256"],
         "image": IMAGE, "sources": manifest["sources"],
+        "source_hash_format": manifest["source_hash_format"],
     }
     (out / "commit_id.json").write_text(json.dumps(metadata, indent=2) + "\n")
     (out / "closure.json").write_text(json.dumps(result, indent=2) + "\n")

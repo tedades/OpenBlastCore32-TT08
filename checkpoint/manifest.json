@@ -17,17 +17,18 @@
     "tt_um_openblastcore32_tt08.sdc": "cc9f1ccca5fec0b39ba4fd92e8340656369e88ffc0c0caf6039ad919ec9e141e",
     "tt_um_openblastcore32_tt08.vh": "858f3309ca7fc34b681db856fdd6044d514b5ea3a1ec8d16ff92bd741f8bc04e"
   },
+  "source_hash_format": "sha256-crlf-to-lf",
   "sources": {
-    "src/tt_um_openblastcore32_tt08.v": "2e7cbe33c376890adcf32c89706fc599a6cf8c66046c1a7997e1060ab9a1132b",
+    "src/tt_um_openblastcore32_tt08.v": "ae8dcc23df523c4e1b8c65a7ed940238a36adaab277c13ac7f1058cc9c6f3566",
     "src/tt08_cpu.v": "2123fc6cb492ca7b591be607e2c8b73e428d3e3d66017799ed45206f0381f5e8",
     "src/tt08_handoff.v": "42b49d60dce33a83cbd2298ba46ac295753aab40aa263e51b32ba4e0f2917e60",
-    "src/tt08_memory.v": "a9f2e8bc67b5d2201b9a91bfdc6bd949447645ad8ecfcbc7ef410b652746c9d9",
-    "src/tt08_psram.v": "8daf4d2dd8f5882895250ffc49b9719af4f3d6f57d582cb879ca9e13933e79d0",
-    "src/tt08_scanout.v": "4c64c054cd9bb6cacaf7fe0344ba7cf30b1b34e8222c9d7c407efc0d2490cbbe",
-    "src/phase2_gamepad_io.v": "3f1e2548f4c10463cbeee63dcf22c09d1c8c1c89e841b8822fffc95c02096d84",
+    "src/tt08_memory.v": "67886bb0c2d2469b3eba27c10d151d6c7a86e4ec7134945e17a81eae7a66ef34",
+    "src/tt08_psram.v": "a4ee8b4db4901e9bb9835b242f6c2eafcc38e0423179d6511cd35ef6717a85aa",
+    "src/tt08_scanout.v": "6d55fa09a12027e3c600932aa95766ef64ae152c94d33df70e1da35f3e051280",
+    "src/phase2_gamepad_io.v": "8725b481f5596cf9ac1cd626304a80d2f645e8a41d47232bee0aca844d09237b",
     "src/vendor/gamepad_pmod/gamepad_pmod.v": "1b02f969841da6f07f96e726000d64ccf2621e453db4c237247c231a16506a80",
-    "src/tt08_minimal_audio.v": "d902a76b8dafa4c590f77be34fe653c777fecf351d7fd601c56c25dc40dc05e9",
-    "src/config.json": "ce86c18a0afe9403344710582fe82e7997e872701cbab7b99fc1842ee36e4fb5"
+    "src/tt08_minimal_audio.v": "6fe3172f8b49c0d136147205cefc04fc4679f5fda65dc8246af77deabb1fefac",
+    "src/config.json": "77c3c7bf814d2a12e4eee03ed47bbe9e13ba039560812c69661b122b7d185faa"
   },
   "project": {
     "title": "OpenBlastCore32-TT08",

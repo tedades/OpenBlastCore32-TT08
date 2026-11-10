@@ -23,22 +23,27 @@ jobs:
       - name: Build and verify RC1 checkpoint replay
         shell: bash
         run: |
-          pdk="$(realpath "${{ runner.temp }}/pdk/sky130A")"
-          test -r "$pdk/SOURCES"
-          docker run --rm --network none --memory=10g --cpus=2 \
-            -v "$GITHUB_WORKSPACE:/project" \
-            -v "$pdk:/pdk/sky130A:ro" \
-            -w /project \
-            -e GITHUB_SHA -e GITHUB_SERVER_URL -e GITHUB_REPOSITORY -e GITHUB_RUN_ID \
-            --entrypoint python3 \
-            ghcr.io/librelane/librelane@sha256:f91b21d75f79871f9ccf37451020b5d2f7b3236881a997ff709c561e8280a30f \
-            scripts/build_gds.py
+          mkdir -p runs
+          {
+            pdk="$(realpath "${{ runner.temp }}/pdk/sky130A")"
+            test -r "$pdk/SOURCES"
+            docker run --rm --network none --memory=10g --cpus=2 \
+              -v "$GITHUB_WORKSPACE:/project" \
+              -v "$pdk:/pdk/sky130A:ro" \
+              -w /project \
+              -e GITHUB_SHA -e GITHUB_SERVER_URL -e GITHUB_REPOSITORY -e GITHUB_RUN_ID \
+              --entrypoint python3 \
+              ghcr.io/librelane/librelane@sha256:f91b21d75f79871f9ccf37451020b5d2f7b3236881a997ff709c561e8280a30f \
+              scripts/build_gds.py
+          } 2>&1 | tee runs/build.log
       - name: Publish build logs
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: GDS_logs
-          path: runs/rc1/flow/
+          path: |
+            runs/build.log
+            runs/rc1/flow/
           if-no-files-found: warn
       - name: Publish verified submission
         uses: actions/upload-artifact@v7

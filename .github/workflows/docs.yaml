@@ -1,0 +1,20 @@
+name: docs
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+      - name: Build datasheet
+        uses: TinyTapeout/tt-gds-action/docs@395eedb3eeec3c2f4961c3b04ff2cf87f5525636
+        with:
+          tools-ref: 02abf73b5f5dcd2eabdda92b074bf00c4446d886

@@ -3,7 +3,7 @@ project:
   title:        "OpenBlastCore32-TT08"
   author:       "OpenBlastCore32 contributors"
   discord:      ""
-  description:  "32-bit TTA CPU with shared cartridge memory and 1bpp VGA scanout candidate"
+  description:  "OpenBlastCore is an open-source 32bit custom ISA chip designed for retro-gaming on the Tiny TapeOut demo board"
   language:     "Verilog"
   clock_hz:     50000000
 

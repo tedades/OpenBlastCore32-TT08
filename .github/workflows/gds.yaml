@@ -52,6 +52,7 @@ jobs:
           if-no-files-found: error
           path: |
             tt_submission/**
+            docs/info.md
             info.yaml
             LICENSE
             src/**
